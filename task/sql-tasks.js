@@ -43,6 +43,16 @@ async function task_1_1(db) {
  *
  */
 async function task_1_2(db) {
+	let result = await db.query(`
+	SELECT
+	   OrderID as "Order Id",
+	   SUM(UnitPrice * Quantity) as "Order Total Price",
+	   ROUND(SUM(Discount * Quantity) / SUM(UnitPrice * Quantity) * 100, 3) as "Total Order Discount, %"
+	FROM OrderDetails
+	GROUP BY OrderId
+	ORDER BY OrderId DESC
+`);
+return result[0];
     throw new Error("Not implemented");
 }
 
