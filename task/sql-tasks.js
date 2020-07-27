@@ -66,7 +66,7 @@ async function task_1_3(db) {
 	let result = await db.query(`
 		SELECT
 			CustomerID as "CustomerId",
-			CompanyName
+			CompanyName as "CompanyName"
 		FROM Customers
 		WHERE Country = "USA" AND Fax IS NULL
 `);
@@ -103,7 +103,16 @@ return result[0];
  *
  */
 async function task_1_5(db) {
-    throw new Error("Not implemented");
+	let result = await db.query(`
+		SELECT
+			ProductID as "ProductId",
+			ProductName as "ProductName",
+			QuantityPerUnit as "QuantityPerUnit"
+		FROM Products
+		WHERE ProductName REGEXP '^[A-F]'
+		ORDER BY ProductName		
+`);
+return result[0];
 }
 
 /**
@@ -116,7 +125,17 @@ async function task_1_5(db) {
  *
  */
 async function task_1_6(db) {
-    throw new Error("Not implemented");
+	let result = await db.query(`
+		SELECT
+			Products.ProductName AS 'ProductName', 
+			Categories.CategoryName AS 'CategoryName', 
+			Suppliers.CompanyName AS 'SupplierCompanyName'
+		FROM Products
+		INNER JOIN Categories ON Categories.CategoryID = Products.CategoryID
+		INNER JOIN Suppliers ON Suppliers.SupplierID = Products.SupplierID
+		ORDER BY ProductName, SupplierCompanyName
+`);
+return result[0];
 }
 
 /**
